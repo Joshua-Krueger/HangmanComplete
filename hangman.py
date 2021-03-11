@@ -19,7 +19,7 @@ def game(user_word):  # main game function. Running this will start the game.
     while fails > 0:  # central game loop, essentially saying "as long as there is at least one limb left, go again."
         if progress == answer:
             print(f"you did it!\nThe word was {word}")
-            exit()
+            new_game(input("Would you like to play again? (y/n) ").lower())
         print(f"\n{hangman_image[fails]}"
               f"\nYou have {fails} tries left"
               f"\nYour word so far is {progress}"
@@ -41,6 +41,14 @@ def game(user_word):  # main game function. Running this will start the game.
     print(f"{hangman_image[0]}"  # only occurs when they lose and the loop ends, prints the final position of the gallows
           f"\nSorry, you failed to save the person"
           f"\nYour word was {word}, better luck next time!")  # Closing messages
+    new_game(input("Would you like to try again? (y/n) ").lower())  # asks if they would like to play again
+
+
+def new_game(choice):
+    if choice == "y":
+        game(input("What word shall we test? "))
+    else:
+        quit()
 
 
 game(input("What word shall we test? "))  # Calls the main game function asking for a word
