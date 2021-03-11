@@ -1,3 +1,6 @@
+# Terminal hangman made by Joshua Krueger March 10, 2021
+# Use as you wish with credit given.
+
 hangman_image = ["_______\n|     |\n|     O\n|    -|-\n|     |\n|    / \\ \n|\n=======",
                  "_______\n|     |\n|     O\n|    -|-\n|     |\n|    /\n|\n=======",
                  "_______\n|     |\n|     O\n|    -|-\n|     |\n|\n|\n=======",
