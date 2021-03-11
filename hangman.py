@@ -20,6 +20,22 @@ def game(user_word):  # main game function. Running this will start the game.
               f"\nYou've guessed {guessed_letters}")  # Gives them the necessary info to play the game
         current_guess = input("Guess a letter: ").lower()  # asks for their guess, ensures lowercase for safety
         if len(current_guess) == 1 and current_guess.isalpha():  # ensures guess is a letter and is only one letter
-            return print("True")
+            if current_guess in guessed_letters:
+                print(f"You already guessed {current_guess}!")  # stops the user from wasting a limb on a letter they've already tried
+            elif current_guess in answer:  # only happens if the guessed letter is in the answer
+                for index, character in enumerate(answer):  # enumerates answer making two dicts full of values for the answer list.
+                    progress = list(progress)  # MAYBE NOT NEEDED
+                    if character == current_guess:  # checks the guess against each letter in answer
+                        progress[index] = current_guess  # sets that spot in the list of underscores to the guess if correct
+                        guessed_letters.append(current_guess)  # adds the letter that was guessed to guessed letters
+            elif current_guess not in answer:  # checks if the guess is not in the answer
+                fails -= 1  # they lose one attempt and a limb is added
+            guessed_letters.append(current_guess)  # adds the letter that was guessed to guessed letters
+        else:
+            print("Only single letter guesses allowed.")  # in case they try to guess more than a letter
+        print(f"{hangman_image[0]}"  # only occurs when they lose and the loop ends, prints the final position of the gallows
+              f"\nSorry, you failed to save the person"
+              f"\nYour word was {word}, better luck next time!")  # Closing messages
+
 
 game(input("What word shall we test? "))  # Calls the main game function asking for a word
