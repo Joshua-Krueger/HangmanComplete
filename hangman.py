@@ -1,5 +1,6 @@
 import random  # used to pick a random word from the list of all words
 from word_list import game_words  # so I can access all of the words
+import wiktionaryparser  # for looking up the definitions
 # Terminal hangman made by Joshua Krueger March 10, 2021
 # Use as you wish with credit given.
 
@@ -10,6 +11,17 @@ hangman_image = ["_______\n|     |\n|     O\n|    -|-\n|     |\n|    / \\ \n|\n=
                  "_______\n|     |\n|     O\n|     |\n|     |\n|\n|\n=======",
                  "_______\n|     |\n|     O\n|\n|\n|\n|\n=======",
                  "_______\n|     |\n|\n|\n|\n|\n|\n======="]  # copied from a google search. Builds the gallows for each position. Head, body, arm, arm, leg, leg.
+
+
+def get_definition(word, language="english"):  # takes a word and language, is going to search it on Wiktionary
+    parser = wiktionaryparser.WiktionaryParser()  # creates a new parser object so it can interact with the program
+    parser.set_default_language(language)  # defaults the language to English
+    definition = parser.fetch(word)  # looks for the word
+    try:  # try except needed just in case it's a weird/old word that isn't on Wiktionary
+        def_list = definition[0]["definitions"][0]["text"]  # creates a list of the definitions after digging them up
+        for i in def_list: print(f"\n {i}")  # prints them each on new lines
+    except IndexError as _:
+        print("sorry there's no definition available")  # in case there's no definition
 
 
 def game(option):  # main game function. Running this will start the game.
@@ -24,6 +36,7 @@ def game(option):  # main game function. Running this will start the game.
     while fails > 0:  # central game loop, essentially saying "as long as there is at least one limb left, go again."
         if progress == answer:  # if they are correct
             print(f"you did it!\nThe word was {word}")  # tells the user the word
+            get_definition(word)  # gives the user definitions of the word
             new_game(input("Would you like to play again? (y/n) ").lower())  # if they want to play again
         print(f"\n{hangman_image[fails]}"
               f"\nYou have {fails} tries left"
@@ -46,6 +59,7 @@ def game(option):  # main game function. Running this will start the game.
     print(f"{hangman_image[0]}"  # only occurs when they lose and the loop ends, prints the final position of the gallows
           f"\nSorry, you failed to save the person"
           f"\nYour word was {word}, better luck next time!")  # Closing messages
+    get_definition(word)  # gives the user definitions of the word
     new_game(input("Would you like to try again? (y/n) ").lower())  # asks if they would like to play again
 
 
