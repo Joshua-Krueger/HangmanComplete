@@ -1,3 +1,5 @@
+import random  # used to pick a random word from the list of all words
+from word_list import game_words  # so I can access all of the words
 # Terminal hangman made by Joshua Krueger March 10, 2021
 # Use as you wish with credit given.
 
@@ -10,9 +12,9 @@ hangman_image = ["_______\n|     |\n|     O\n|    -|-\n|     |\n|    / \\ \n|\n=
                  "_______\n|     |\n|\n|\n|\n|\n|\n======="]  # copied from a google search. Builds the gallows for each position. Head, body, arm, arm, leg, leg.
 
 
-def game(user_word):  # main game function. Running this will start the game.
-    word = user_word  # this is for safekeeping as the answer is about to become a list.
-    answer = list(user_word)  # Converts the answer to a list so it can be compared to the progress and guesses
+def game():  # main game function. Running this will start the game.
+    word = game_words[random.randint(0, len(game_words)-1)]  # this is for safekeeping as the answer is about to become a list.
+    answer = list(word)  # Converts the answer to a list so it can be compared to the progress and guesses
     progress = list("_" * len(answer))  # Creates a string of underscores to represent the amount of letters and then makes it a list so it can be easily edited and compared.
     guessed_letters = []  # Keeps track of letters guessed
     fails = 6  # Counter to keep track of attempts remaining
@@ -44,11 +46,11 @@ def game(user_word):  # main game function. Running this will start the game.
     new_game(input("Would you like to try again? (y/n) ").lower())  # asks if they would like to play again
 
 
-def new_game(choice):
-    if choice == "y":
-        game(input("What word shall we test? "))
+def new_game(choice):  # for the user to play again if they want to
+    if choice == "y":  # checks whether or not they said yes
+        game()  # runs the game again
     else:
-        quit()
+        quit()  # quits
 
 
-game(input("What word shall we test? "))  # Calls the main game function asking for a word
+game()  # Calls the main game function
