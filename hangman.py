@@ -23,7 +23,7 @@ def game(option):  # main game function. Running this will start the game.
     fails = 6  # Counter to keep track of attempts remaining
     while fails > 0:  # central game loop, essentially saying "as long as there is at least one limb left, go again."
         if progress == answer:  # if they are correct
-            print(f"you did it!\nThe word was {word}")
+            print(f"you did it!\nThe word was {word}")  # tells the user the word
             new_game(input("Would you like to play again? (y/n) ").lower())  # if they want to play again
         print(f"\n{hangman_image[fails]}"
               f"\nYou have {fails} tries left"
