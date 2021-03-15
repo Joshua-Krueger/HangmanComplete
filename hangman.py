@@ -12,8 +12,11 @@ hangman_image = ["_______\n|     |\n|     O\n|    -|-\n|     |\n|    / \\ \n|\n=
                  "_______\n|     |\n|\n|\n|\n|\n|\n======="]  # copied from a google search. Builds the gallows for each position. Head, body, arm, arm, leg, leg.
 
 
-def game():  # main game function. Running this will start the game.
-    word = game_words[random.randint(0, len(game_words)-1)]  # this is for safekeeping as the answer is about to become a list.
+def game(option):  # main game function. Running this will start the game.
+    if option.lower() == "y":
+        word = input("What word shall we play with?")
+    else:
+        word = game_words[random.randint(0, len(game_words)-1)]  # this is for safekeeping as the answer is about to become a list.
     answer = list(word)  # Converts the answer to a list so it can be compared to the progress and guesses
     progress = list("_" * len(answer))  # Creates a string of underscores to represent the amount of letters and then makes it a list so it can be easily edited and compared.
     guessed_letters = []  # Keeps track of letters guessed
@@ -48,9 +51,9 @@ def game():  # main game function. Running this will start the game.
 
 def new_game(choice):  # for the user to play again if they want to
     if choice == "y":  # checks whether or not they said yes
-        game()  # runs the game again
+        game(input("Would you like to provide your own word?(y/n) "))  # runs the game again
     else:
         quit()  # quits
 
 
-game()  # Calls the main game function
+game(input("Would you like to provide your own word?(y/n) "))  # Calls the main game function
