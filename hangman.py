@@ -13,18 +13,18 @@ hangman_image = ["_______\n|     |\n|     O\n|    -|-\n|     |\n|    / \\ \n|\n=
 
 
 def game(option):  # main game function. Running this will start the game.
-    if option.lower() == "y":
-        word = input("What word shall we play with?")
+    if option.lower() == "y":  # if user wants to pick their own word
+        word = input("What word shall we play with?")  # sets the game word to their choice
     else:
-        word = game_words[random.randint(0, len(game_words)-1)]  # this is for safekeeping as the answer is about to become a list.
+        word = game_words[random.randint(0, len(game_words)-1)]  # sets the game word to a random word from the English language
     answer = list(word)  # Converts the answer to a list so it can be compared to the progress and guesses
     progress = list("_" * len(answer))  # Creates a string of underscores to represent the amount of letters and then makes it a list so it can be easily edited and compared.
     guessed_letters = []  # Keeps track of letters guessed
     fails = 6  # Counter to keep track of attempts remaining
     while fails > 0:  # central game loop, essentially saying "as long as there is at least one limb left, go again."
-        if progress == answer:
+        if progress == answer:  # if they are correct
             print(f"you did it!\nThe word was {word}")
-            new_game(input("Would you like to play again? (y/n) ").lower())
+            new_game(input("Would you like to play again? (y/n) ").lower())  # if they want to play again
         print(f"\n{hangman_image[fails]}"
               f"\nYou have {fails} tries left"
               f"\nYour word so far is {progress}"
