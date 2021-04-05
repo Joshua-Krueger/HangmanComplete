@@ -5,18 +5,20 @@ from word_list import game_words  # from my own .py for the list of all words
 import wiktionaryparser  # Needed to ge the definitions of words
 
 hangbot = commands.Bot(command_prefix="-")  # sets the bot command key to -
-TOKEN = "ODE3MTk4OTY5NzI4OTI1NzI2.YEGB2Q.TUJR1gMOuUqHPU60uK9HsrzD_us"  # bot token. the one in the code is just a placeholder
+TOKEN = "TOKEN"  # bot token. the one in the code is just a placeholder
 
 
 def get_definition(word, language="english"):  # takes a word and language, is going to search it on Wiktionary
     parser = wiktionaryparser.WiktionaryParser()  # creates a new parser object so it can interact with the program
     parser.set_default_language(language)  # defaults the language to English
     definition = parser.fetch(word)  # looks for the word
-    try:  # try except needed just in case it's a weird/old word that isn't on Wiktionary
+    try:  # try except needed just in case there are no available definitions
         def_list = definition[0]["definitions"][0]["text"]  # creates a list of the definitions after digging them up
-        for i in def_list: print(f"\n {i}")  # prints them each on new lines
+        if len(def_list) > 5:  # if the definition list is longer than five items
+            def_list = def_list[0:4]  # limits the definitions to four just in case it has many
+            return def_list  # gives the list back to the main game function so it can be printed
     except IndexError as _:
-        print("sorry there's no definition available")  # in case there's no definition
+        return ["sorry there's no definition available"]  # in case there's no definition
 
 
 @hangbot.event
@@ -33,7 +35,18 @@ async def define(ctx, word):
 @hangbot.command(name="commands")  # if they need help with the commands, then it will show them the commands
 async def commands(ctx):
     await ctx.send("\n-start: Starts a game of hangman."
-                   "\n-define *word*: Defines a word.")  # prints the commands and what they do
+                   "\n-define *word*: Defines a word."
+                   "\n-generate *x*: Produces *x* number of random words up to 100.")  # prints the commands and what they do
+
+
+@hangbot.command(name="generate")  # prints out random words up to one hundred
+async def generate(ctx, num_words):
+    if int(num_words) > 100:  # more than 100 words is asking a lot of the machine and floods discord
+        return await ctx.send("Woah there partner. Too many words")  # tells them too many
+    else:
+        for _ in range(int(num_words)):  # for loop to print out however many words they asked for
+            word = game_words[random.randint(0, len(game_words) - 1)]  # generates a random word
+            await ctx.send(word)  # prints a random word to discord
 
 
 @hangbot.command(name="start")
