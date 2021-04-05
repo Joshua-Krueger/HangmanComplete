@@ -3,6 +3,7 @@ from discord.ext import commands  # Allows me to use discord for the bot
 import random  # imports the random library for picking the word
 from word_list import game_words  # from my own .py for the list of all words
 import wiktionaryparser  # Needed to ge the definitions of words
+# discord hangman made by Joshua Krueger April 5, 2021
 
 hangbot = commands.Bot(command_prefix="-")  # sets the bot command key to -
 TOKEN = "TOKEN"  # bot token. the one in the code is just a placeholder
