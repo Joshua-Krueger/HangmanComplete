@@ -5,7 +5,7 @@ from word_list import game_words  # from my own .py for the list of all words
 import wiktionaryparser  # Needed to ge the definitions of words
 
 hangbot = commands.Bot(command_prefix="-")  # sets the bot command key to -
-TOKEN = "ODE3MTk4OTY5NzI4OTI1NzI2.YEGB2Q.TUJR1gMOuUqHPU60uK9HsrzD_us"  # bot token
+TOKEN = "ODE3MTk4OTY5NzI4OTI1NzI2.YEGB2Q.TUJR1gMOuUqHPU60uK9HsrzD_us"  # bot token. the one in the code is just a placeholder
 
 
 def get_definition(word, language="english"):  # takes a word and language, is going to search it on Wiktionary
@@ -25,9 +25,15 @@ async def on_ready():
     await hangbot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="For -commands"))  # sets the bot's server status to tell them to type -commands in order to see what it is capable of
 
 
-@hangbot.command(name="commands")
-async def commands(ctx):  # if they need help with the commands, then it will show them the commands
-    await ctx.send("\n-start: Starts a game of hangman with a random word.")
+@hangbot.command(name="define")  # Defines any given word
+async def define(ctx, word):
+    return await ctx.send(get_definition(word))  # takes a user's request for a word then gives definitions for it
+
+
+@hangbot.command(name="commands")  # if they need help with the commands, then it will show them the commands
+async def commands(ctx):
+    await ctx.send("\n-start: Starts a game of hangman."
+                   "\n-define *word*: Defines a word.")  # prints the commands and what they do
 
 
 @hangbot.command(name="start")
